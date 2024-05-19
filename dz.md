@@ -30,8 +30,41 @@ mv Друзья_человека.txt Мои_файлы/
 ```
 
 ### 3. Подключить дополнительный репозиторий MySQL. Установить любой пакет из этого репозитория.
+```sh
+sudo apt-get install wget
+wget https://dev.mysql.com/get/mysql-apt-config_0.8.17-1_all.deb
+sudo dpkg -i mysql-apt-config_0.8.17-1_all.deb
+sudo apt-get update
+```
+```sh
+sudo apt-get install mysql-server
+```
 
 ### 4. Установить и удалить deb-пакет с помощью dpkg.
+#### Скачивание пакета
+```sh
+wget http://archive.ubuntu.com/ubuntu/pool/universe/c/cowsay/cowsay_3.03+dfsg2-7_all.deb
+```
+#### Установка пакета
+```sh
+dpkg -i cowsay_3.03+dfsg2-7_all.deb
+```
+#### Исправление зависимостей, если необходимо
+```sh
+sudo apt-get install -f
+```
+#### Проверка установки пакета
+```sh
+cowsay "Hello, World!"
+```
+#### Удаление пакета
+```sh
+dpkg -r cowsay
+```
+#### Полное удаление пакета с конфигурационными файлами
+```sh
+dpkg -P cowsay
+```
 
 ### 5. Выложить историю команд в терминале ubuntu
 
