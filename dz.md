@@ -301,6 +301,21 @@ SELECT * FROM Donkey;
 ```
 
 ### 11.Создать новую таблицу “молодые животные” в которую попадут все животные старше 1 года, но младше 3 лет и в отдельном столбце с точностью до месяца подсчитать возраст животных в новой таблице
+- Создание новой таблицы "молодые животные" (YoungAnimals):
+```sh
+CREATE TABLE YoungAnimals AS
+SELECT *, TIMESTAMPDIFF(MONTH, birth_date, CURDATE()) AS age_in_months
+FROM (SELECT * FROM Dog   
+      UNION
+      SELECT * FROM Cat
+      UNION
+      SELECT * FROM Hamster
+      UNION
+      SELECT * FROM Horse 
+      UNION
+      SELECT * FROM Donkey) AS all_animals
+WHERE TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) BETWEEN 1 AND 3;
+```
 
 ### 12. Объединить все таблицы в одну, при этом сохраняя поля, указывающие на прошлую принадлежность к старым таблицам.
 
