@@ -333,6 +333,79 @@ SELECT 'Donkey' AS source_table, id, name, commands, birth_date FROM Donkey;
 ```
 
 ### 13.Создать класс с Инкапсуляцией методов и наследованием по диаграмме.
+- Код на языке програмирования Python:
+```sh
+class AnimalRegistry:
+    def __init__(self):
+        self.animals = []
+
+    def add_animal(self, animal):
+        self.animals.append(animal)
+
+    def classify_animal(self, animal):
+        if isinstance(animal, Dog):
+            return "Собака"
+        elif isinstance(animal, Cat):
+            return "Кошка"
+        elif isinstance(animal, Hamster):
+            return "Хомяк"
+        else:
+            return "Неизвестный вид"
+
+    def list_commands(self, animal):
+        if isinstance(animal, Dog):
+            return "Сидеть, Лежать, Фас!"
+        elif isinstance(animal, Cat):
+            return "Мурлыкать, Ловить мышей"
+        elif isinstance(animal, Hamster):
+            return "Бегать в колесе, Есть семечки"
+        else:
+            return "Неизвестные команды"
+
+    def teach_commands(self, animal, new_commands):
+        animal.add_commands(new_commands)
+
+class Dog:
+    def __init__(self, name):
+        self.name = name
+        self.commands = ["Сидеть", "Лежать"]
+
+    def add_commands(self, new_commands):
+        self.commands.extend(new_commands)
+
+class Cat:
+    def __init__(self, name):
+        self.name = name
+        self.commands = ["Мурлыкать", "Ловить мышей"]
+
+    def add_commands(self, new_commands):
+        self.commands.extend(new_commands)
+
+class Hamster:
+    def __init__(self, name):
+        self.name = name
+        self.commands = ["Бегать в колесе", "Есть семечки"]
+
+    def add_commands(self, new_commands):
+        self.commands.extend(new_commands)
+
+registry = AnimalRegistry()
+
+dog = Dog("Шарик")
+cat = Cat("Мурка")
+hamster = Hamster("Хома")
+
+registry.add_animal(dog)
+registry.add_animal(cat)
+registry.add_animal(hamster)
+
+print(registry.classify_animal(dog))
+print(registry.list_commands(dog))
+
+new_commands = ["Фас!", "Искусственное дыхание"]
+registry.teach_commands(dog, new_commands)
+print(registry.list_commands(dog))
+```
 
 ### 14. Написать программу, имитирующую работу реестра домашних животных. В программе должен быть реализован следующий функционал:
 
