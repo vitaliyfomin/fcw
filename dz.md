@@ -318,6 +318,19 @@ WHERE TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) BETWEEN 1 AND 3;
 ```
 
 ### 12. Объединить все таблицы в одну, при этом сохраняя поля, указывающие на прошлую принадлежность к старым таблицам.
+- Объединение всех таблиц:
+```sh
+CREATE TABLE AllAnimals AS
+SELECT 'Dog' AS source_table, id, name, commands, birth_date FROM Dog
+UNION ALL
+SELECT 'Cat' AS source_table, id, name, commands, birth_date FROM Cat
+UNION ALL
+SELECT 'Hamster' AS source_table, id, name, commands, birth_date FROM Hamster
+UNION ALL
+SELECT 'Horse' AS source_table, id, name, commands, birth_date FROM Horse
+UNION ALL
+SELECT 'Donkey' AS source_table, id, name, commands, birth_date FROM Donkey;
+```
 
 ### 13.Создать класс с Инкапсуляцией методов и наследованием по диаграмме.
 
