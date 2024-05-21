@@ -57,7 +57,7 @@ CREATE TABLE DomesticAnimall (
 ```
 - Создание таблицы для вьючных животных (PackAnimal):
 ```sh
-CREATE TABLE Вьючные_животные (
+CREATE TABLE PackAnimal (
     id INT AUTO_INCREMENT PRIMARY KEY,
     parent_id INT,
     name VARCHAR(50) NOT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE Вьючные_животные (
 ```
 - Создание таблицы для собак (Dog):
 ```sh
-CREATE TABLE Собаки (
+CREATE TABLE Dog (
     id INT AUTO_INCREMENT PRIMARY KEY,
     parent_id INT,
     name VARCHAR(50) NOT NULL,
@@ -77,7 +77,7 @@ CREATE TABLE Собаки (
 ```
 - Создание таблицы для кошек (Cat):
 ```sh
-CREATE TABLE Кошки (
+CREATE TABLE Cat (
     id INT AUTO_INCREMENT PRIMARY KEY,
     parent_id INT,
     name VARCHAR(50) NOT NULL,
@@ -88,7 +88,7 @@ CREATE TABLE Кошки (
 ```
 - Создание таблицы для хомяков (Hamster): 
 ```sh
-CREATE TABLE Хомяки (
+CREATE TABLE Hamster (
     id INT AUTO_INCREMENT PRIMARY KEY,
     parent_id INT,
     name VARCHAR(50) NOT NULL,
@@ -99,7 +99,7 @@ CREATE TABLE Хомяки (
 ```
 Создание таблицы для лошадей (Horse):
 ```sh
-CREATE TABLE Лошади (
+CREATE TABLE Horse (
     id INT AUTO_INCREMENT PRIMARY KEY,
     parent_id INT,
     name VARCHAR(50) NOT NULL,
@@ -110,7 +110,7 @@ CREATE TABLE Лошади (
 ```
 - Создание таблицы для верблюдов (Camel):
 ```sh
-CREATE TABLE Верблюды (
+CREATE TABLE Camel (
     id INT AUTO_INCREMENT PRIMARY KEY,
     parent_id INT,
     name VARCHAR(50) NOT NULL,
@@ -121,7 +121,7 @@ CREATE TABLE Верблюды (
 ```
 - Создание таблицы для ослов (Donkey):
 ```sh
-CREATE TABLE Ослы (
+CREATE TABLE Donkey (
     id INT AUTO_INCREMENT PRIMARY KEY,
     parent_id INT,
     name VARCHAR(50) NOT NULL,
