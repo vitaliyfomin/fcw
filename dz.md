@@ -335,6 +335,173 @@ SELECT 'Donkey' AS source_table, id, name, commands, birth_date FROM Donkey;
 ### 13.Создать класс с Инкапсуляцией методов и наследованием по диаграмме.
 - Код на языке програмирования Python:
 ```sh
+class DomesticAnimal:
+    def __init__(self, name):
+        self._name = name
+
+    def get_name(self):
+        return self._name
+
+    def make_sound(self):
+        pass  # Реализация в подклассах
+
+
+class Dog(DomesticAnimal):
+    def make_sound(self):
+        return "Гав!"
+
+
+class Cat(DomesticAnimal):
+    def make_sound(self):
+        return "Мяу!"
+
+
+class Hamster(DomesticAnimal):
+    def make_sound(self):
+        return "Скрип Скрип!"
+
+
+class DraftAnimal:
+    def __init__(self, name):
+        self._name = name
+
+    def get_name(self):
+        return self._name
+
+    def carry_load(self):
+        pass  # Реализация в подклассах
+
+
+class Horse(PackAnimal):
+    def carry_load(self):
+        return "Цок Цок!"
+
+
+class Camel(PackAnimal):
+    def carry_load(self):
+        return "Шлёп шлёп шлёп!"
+
+
+class Donkey(PackAnimal):
+    def carry_load(self):
+        return "Иа!"
+
+
+def main():
+    dog = Dog("Шарик")
+    cat = Cat("Мурка")
+    hamster = Hamster("Хома")
+
+    horse = Horse("Буцефал")
+    camel = Camel("Верблюд")
+    donkey = Donkey("Джек")
+
+    animals = [dog, cat, hamster, horse, camel, donkey]
+
+    for animal in animals:
+        if isinstance(animal, DomesticAnimal):
+            animal_type = "Domestic"
+        else:
+            animal_type = "Draft"
+        print(f"{animal.get_name()} is a {animal_type} animal. Sound: {animal.make_sound()}")
+
+        if isinstance(animal, PackAnimal):
+            print(animal.carry_load())
+
+
+if __name__ == "__main__":
+    main()
+```
+
+### 14. Написать программу, имитирующую работу реестра домашних животных. В программе должен быть реализован следующий функционал:
+### 14.1 Завести новое животное
+```sh
+dog = Dog("Бобик")
+registry.add_animal(dog)
+```
+### 14.2 определять животное в правильный класс
+```sh
+print(registry.classify_animal(cat))  # Выведет "Кошка"
+```
+### 14.3 увидеть список команд, которое выполняет животное
+```sh
+print(registry.list_commands(hamster))  # Выведет "Бегать в колесе, Есть семечки"
+```
+### 14.4 обучить животное новым командам
+```sh
+new_commands = ["Фас!", "Искусственное дыхание"]
+registry.teach_commands(dog, new_commands)
+print(registry.list_commands(dog))  # Выведет "Сидеть, Лежать, Фас!, Искусственное дыхание"
+```
+### 14.5 Реализовать навигацию по меню
+```sh
+def main():
+    registry = AnimalRegistry()
+
+    while True:
+        print("1. Завести новое животное")
+        print("2. Определить класс животного")
+        print("3. Увидеть список команд, которые выполняет животное")
+        print("4. Обучить животное новым командам")
+        print("5. Выход")
+
+        choice = input("Выберите действие: ")
+
+        if choice == "1":
+            # Логика добавления нового животного
+            pass
+        elif choice == "2":
+            # Логика определения класса животного
+            pass
+        elif choice == "3":
+            # Логика вывода списка команд животного
+            pass
+        elif choice == "4":
+            # Логика обучения животного новым командам
+            pass
+        elif choice == "5":
+            break
+        else:
+            print("Некорректный ввод")
+
+if __name__ == "__main__":
+    main()
+```
+- Полный код:
+```sh
+class Animal:
+    def __init__(self, name):
+        self.name = name
+        self.commands = []
+
+    def add_commands(self, new_commands):
+        self.commands.extend(new_commands)
+
+
+class Dog(Animal):
+    def __init__(self, name):
+        super().__init__(name)
+
+    def get_class(self):
+        return "Собака"
+
+
+class Cat(Animal):
+    def __init__(self, name):
+        super().__init__(name)
+
+    def get_class(self):
+        return "Кошка"
+
+
+class Hamster(Animal):
+    def __init__(self, name):
+        super().__init__(name)
+
+    def get_class(self):
+        return "Хомяк"
+
+
 class AnimalRegistry:
     def __init__(self):
         self.animals = []
@@ -343,80 +510,110 @@ class AnimalRegistry:
         self.animals.append(animal)
 
     def classify_animal(self, animal):
-        if isinstance(animal, Dog):
-            return "Собака"
-        elif isinstance(animal, Cat):
-            return "Кошка"
-        elif isinstance(animal, Hamster):
-            return "Хомяк"
-        else:
-            return "Неизвестный вид"
+        return animal.get_class()
 
     def list_commands(self, animal):
-        if isinstance(animal, Dog):
-            return "Сидеть, Лежать, Фас!"
-        elif isinstance(animal, Cat):
-            return "Мурлыкать, Ловить мышей"
-        elif isinstance(animal, Hamster):
-            return "Бегать в колесе, Есть семечки"
-        else:
-            return "Неизвестные команды"
+        return animal.commands
 
     def teach_commands(self, animal, new_commands):
         animal.add_commands(new_commands)
 
-class Dog:
-    def __init__(self, name):
-        self.name = name
-        self.commands = ["Сидеть", "Лежать"]
 
-    def add_commands(self, new_commands):
-        self.commands.extend(new_commands)
+def main():
+    registry = AnimalRegistry()
 
-class Cat:
-    def __init__(self, name):
-        self.name = name
-        self.commands = ["Мурлыкать", "Ловить мышей"]
+    while True:
+        print("1. Завести новое животное")
+        print("2. Определить класс животного")
+        print("3. Увидеть список команд, которые выполняет животное")
+        print("4. Обучить животное новым командам")
+        print("5. Выход")
 
-    def add_commands(self, new_commands):
-        self.commands.extend(new_commands)
+        choice = input("Выберите действие: ")
 
-class Hamster:
-    def __init__(self, name):
-        self.name = name
-        self.commands = ["Бегать в колесе", "Есть семечки"]
+        if choice == "1":
+            name = input("Введите имя нового животного: ")
+            animal_type = input("Введите тип животного (Собака, Кошка, Хомяк): ")
+            if animal_type == "Собака":
+                animal = Dog(name)
+            elif animal_type == "Кошка":
+                animal = Cat(name)
+            elif animal_type == "Хомяк":
+                animal = Hamster(name)
+            else:
+                print("Некорректный тип животного")
+                continue
+            registry.add_animal(animal)
+            print("Животное успешно добавлено!")
 
-    def add_commands(self, new_commands):
-        self.commands.extend(new_commands)
+        elif choice == "2":
+            name = input("Введите имя животного: ")
+            animal = next((a for a in registry.animals if a.name == name), None)
+            if animal:
+                print(registry.classify_animal(animal))
+            else:
+                print("Животное не найдено")
 
-registry = AnimalRegistry()
+        elif choice == "3":
+            name = input("Введите имя животного: ")
+            animal = next((a for a in registry.animals if a.name == name), None)
+            if animal:
+                print(registry.list_commands(animal))
+            else:
+                print("Животное не найдено")
 
-dog = Dog("Шарик")
-cat = Cat("Мурка")
-hamster = Hamster("Хома")
+        elif choice == "4":
+            name = input("Введите имя животного: ")
+            animal = next((a for a in registry.animals if a.name == name), None)
+            if animal:
+                new_commands = input("Введите новые команды через запятую: ").split(",")
+                registry.teach_commands(animal, new_commands)
+                print("Команды успешно добавлены!")
+            else:
+                print("Животное не найдено")
 
-registry.add_animal(dog)
-registry.add_animal(cat)
-registry.add_animal(hamster)
+        elif choice == "5":
+            break
 
-print(registry.classify_animal(dog))
-print(registry.list_commands(dog))
+        else:
+            print("Некорректный ввод")
 
-new_commands = ["Фас!", "Искусственное дыхание"]
-registry.teach_commands(dog, new_commands)
-print(registry.list_commands(dog))
+
+if __name__ == "__main__":
+    main()
 ```
 
-### 14. Написать программу, имитирующую работу реестра домашних животных. В программе должен быть реализован следующий функционал:
+### 15. Создайте класс Счетчик, у которого есть метод add(), увеличивающий̆ значение внутренней̆int переменной̆на 1 при нажатие “Завести новое животное” Сделайте так, чтобы с объектом такого 
+### типа можно было работать в блоке try-with-resources. Нужно бросить исключение, если работа с объектом типа счетчик была не в ресурсном try и/или ресурс остался открыт. Значение считать 
+### в ресурсе try, если при заведения животного заполнены все поля.
+```sh
+class Counter:
+    def __init__(self):
+        self.count = 0
 
-### 14.1 Завести новое животное
+    def add(self):
+        self.count += 1
 
-### 14.2 определять животное в правильный класс
+    def __enter__(self):
+        return self
 
-### 14.3 увидеть список команд, которое выполняет животное
+    def __exit__(self, exc_type, exc_value, traceback):
+        if exc_type:
+            # Если произошло исключение, выводим сообщение
+            print("Исключение возникло:", exc_type)
+            # Возвращаем False, чтобы исключение было обработано вызывающим кодом
+            return False
+        else:
+            # Если блок завершился без исключений, увеличиваем счетчик на 1
+            self.add()
+            return True
 
-### 14.4 обучить животное новым командам
-
-### 14.5 Реализовать навигацию по меню
-
-### 15. Создайте класс Счетчик, у которого есть метод add(), увеличивающий̆ значение внутренней̆int переменной̆на 1 при нажатие “Завести новое животное” Сделайте так, чтобы с объектом такого типа можно было работать в блоке try-with-resources. Нужно бросить исключение, если работа с объектом типа счетчик была не в ресурсном try и/или ресурс остался открыт. Значение считать в ресурсе try, если при заведения животного заполнены все поля.
+# Пример использования счетчика в блоке try-with-resources
+try:
+    with Counter() as counter:
+        print("Счетчик:", counter.count)
+        # Здесь можно выполнить заведение нового животного
+        # Если все поля заполнены, счетчик увеличится на 1
+except Exception as e:
+    print("Произошло исключение:", e)
+```
