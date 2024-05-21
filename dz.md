@@ -589,33 +589,164 @@ if __name__ == "__main__":
 ### типа можно было работать в блоке try-with-resources. Нужно бросить исключение, если работа с объектом типа счетчик была не в ресурсном try и/или ресурс остался открыт. Значение считать 
 ### в ресурсе try, если при заведения животного заполнены все поля.
 ```sh
+class Animal:
+    def __init__(self, name):
+        self.name = name
+        self.commands = []
+
+    def add_commands(self, new_commands):
+        self.commands.extend(new_commands)
+
+    @staticmethod
+    def get_class():
+        return "Животное"
+
+
+class Dog(Animal):
+    def __init__(self, name):
+        super().__init__(name)
+
+    @staticmethod
+    def get_class():
+        return "Собака"
+
+
+class Cat(Animal):
+    def __init__(self, name):
+        super().__init__(name)
+
+    @staticmethod
+    def get_class():
+        return "Кошка"
+
+
+class Hamster(Animal):
+    def __init__(self, name):
+        super().__init__(name)
+
+    @staticmethod
+    def get_class():
+        return "Хомяк"
+
+
+class AnimalRegistry:
+    def __init__(self):
+        self.animals = []
+
+    def add_animal(self, animal):
+        self.animals.append(animal)
+
+    @staticmethod
+    def classify_animal(animal):
+        return animal.get_class()
+
+    @staticmethod
+    def list_commands(animal):
+        return animal.commands
+
+    @staticmethod
+    def teach_commands(animal, new_commands):
+        animal.add_commands(new_commands)
+
+
 class Counter:
     def __init__(self):
-        self.count = 0
+        self.value = 0
 
     def add(self):
-        self.count += 1
+        self.value += 1
 
     def __enter__(self):
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        if exc_type:
-            # Если произошло исключение, выводим сообщение
-            print("Исключение возникло:", exc_type)
-            # Возвращаем False, чтобы исключение было обработано вызывающим кодом
-            return False
-        else:
-            # Если блок завершился без исключений, увеличиваем счетчик на 1
-            self.add()
-            return True
+        if exc_type is not None:
+            return False  # Пропускаем исключения, чтобы передать их наружу
+        if self.value > 0:
+            raise RuntimeError("Счетчик не был обнулен")  # Вызываем исключение, если счетчик не был обнулен
 
-# Пример использования счетчика в блоке try-with-resources
-try:
-    with Counter() as counter:
-        print("Счетчик:", counter.count)
-        # Здесь можно выполнить заведение нового животного
-        # Если все поля заполнены, счетчик увеличится на 1
-except Exception as e:
-    print("Произошло исключение:", e)
+
+def main():
+    try:
+        with Counter() as counter:
+            registry = AnimalRegistry()
+
+            while True:
+                print("\n1. Завести новое животное")
+                print("2. Определить класс животного")
+                print("3. Увидеть список команд, которые выполняет животное")
+                print("4. Обучить животное новым командам")
+                print("5. Выход")
+
+                choice = input("Выберите действие: ")
+
+                if choice == "1":
+                    name = input("Введите имя нового животного: ").strip()
+                    animal_type = input("Введите тип животного (Собака, Кошка, Хомяк): ").strip()
+
+                    if not name or not animal_type:
+                        print("Имя и тип животного не могут быть пустыми.")
+                        continue
+
+                    if animal_type.lower() == "собака":
+                        animal = Dog(name)
+                    elif animal_type.lower() == "кошка":
+                        animal = Cat(name)
+                    elif animal_type.lower() == "хомяк":
+                        animal = Hamster(name)
+                    else:
+                        print("Некорректный тип животного")
+                        continue
+
+                    registry.add_animal(animal)
+                    counter.add()  # Увеличиваем значение счетчика
+
+                    print(f"Животное '{name}' успешно добавлено!")
+
+                elif choice == "2":
+                    name = input("Введите имя животного: ").strip()
+                    animal = next((a for a in registry.animals if a.name == name), None)
+                    if animal:
+                        print(f"{name} это {registry.classify_animal(animal)}")
+                    else:
+                        print("Животное не найдено")
+
+                elif choice == "3":
+                    name = input("Введите имя животного: ").strip()
+                    animal = next((a for a in registry.animals if a.name == name), None)
+                    if animal:
+                        commands = registry.list_commands(animal)
+                        if commands:
+                            print(f"Команды, которые выполняет {name}: {', '.join(commands)}")
+                        else:
+                            print(f"{name} не знает никаких команд")
+                    else:
+                        print("Животное не найдено")
+
+                elif choice == "4":
+                    name = input("Введите имя животного: ").strip()
+                    animal = next((a for a in registry.animals if a.name == name), None)
+                    if animal:
+                        new_commands = input("Введите новые команды через запятую: ").strip().split(",")
+                        new_commands = [command.strip() for command in new_commands if command.strip()]
+                        if new_commands:
+                            registry.teach_commands(animal, new_commands)
+                            print(f"Команды успешно добавлены {name}!")
+                        else:
+                            print("Команды не могут быть пустыми.")
+                    else:
+                        print("Животное не найдено")
+
+                elif choice == "5":
+                    break
+
+                else:
+                    print("Некорректный ввод, попробуйте снова.")
+
+    except RuntimeError as e:
+        print(e)
+
+
+if __name__ == "__main__":
+    main()
 ```
