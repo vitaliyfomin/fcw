@@ -24,12 +24,112 @@
 5. Выложить историю команд в терминале ubuntu
 
 6. Нарисовать диаграмму, в которой есть класс родительский класс, домашние животные и вьючные животные, в составы которых в случае домашних животных войдут классы: собаки, кошки, хомяки, а в класс вьючные животные войдут: Лошади, верблюды и ослы).
+
 Ссылка на [диаграмму](https://miro.com/app/board/uXjVKFKHgyg=/?share_link_id=741156565085).
+
 ![Диаграмма.](task_6.jpg)
+
 7. В подключенном MySQL репозитории создать базу данных “Друзья человека”
-
+- Создание базы	данных "Друзья человека":
+```sh
+CREATE SCHEMA `human_friends`;
+```
 8. Создать таблицы с иерархией из диаграммы в БД
-
+- Выбираем базу "Друзья человека":
+```sh
+USE human_friends;
+```
+- Создание таблицы для родительского класса (Animal):
+```sh
+CREATE TABLE Animal (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
+```
+- Создание таблицы для домашних животных (DomesticAnimall):
+```sh
+CREATE TABLE DomesticAnimall (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    parent_id INT,
+    name VARCHAR(50) NOT NULL,
+    FOREIGN KEY (parent_id) REFERENCES Animal(id)
+);
+```
+- Создание таблицы для вьючных животных (PackAnimal):
+```sh
+CREATE TABLE Вьючные_животные (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    parent_id INT,
+    name VARCHAR(50) NOT NULL,
+    FOREIGN KEY (parent_id) REFERENCES Animal(id)
+);
+```
+- Создание таблицы для собак (Dog):
+```sh
+CREATE TABLE Собаки (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    parent_id INT,
+    name VARCHAR(50) NOT NULL,
+    commands TEXT,
+    birth_date DATE,
+    FOREIGN KEY (parent_id) REFERENCES DomesticAnimall(id)
+);
+```
+- Создание таблицы для кошек (Cat):
+```sh
+CREATE TABLE Кошки (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    parent_id INT,
+    name VARCHAR(50) NOT NULL,
+    commands TEXT,
+    birth_date DATE,
+    FOREIGN KEY (parent_id) REFERENCES DomesticAnimall(id)
+);
+```
+- Создание таблицы для хомяков (Hamster): 
+```sh
+CREATE TABLE Хомяки (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    parent_id INT,
+    name VARCHAR(50) NOT NULL,
+    commands TEXT,
+    birth_date DATE,
+    FOREIGN KEY (parent_id) REFERENCES DomesticAnimall(id)
+);
+```
+Создание таблицы для лошадей (Horse):
+```sh
+CREATE TABLE Лошади (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    parent_id INT,
+    name VARCHAR(50) NOT NULL,
+    commands TEXT,
+    birth_date DATE,
+    FOREIGN KEY (parent_id) REFERENCES PackAnimal(id)
+);
+```
+- Создание таблицы для верблюдов (Camel):
+```sh
+CREATE TABLE Верблюды (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    parent_id INT,
+    name VARCHAR(50) NOT NULL,
+    commands TEXT,
+    birth_date DATE,
+    FOREIGN KEY (parent_id) REFERENCES PackAnimal(id)
+);
+```
+- Создание таблицы для ослов (Donkey):
+```sh
+CREATE TABLE Ослы (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    parent_id INT,
+    name VARCHAR(50) NOT NULL,
+    commands TEXT,
+    birth_date DATE,
+    FOREIGN KEY (parent_id) REFERENCES PackAnimal(id)
+);
+```
 9. Заполнить низкоуровневые таблицы именами(животных), командами которые они выполняют и датами рождения
 
 10. Удалив из таблицы верблюдов, т.к. верблюдов решили перевезти в другой питомник на зимовку. Объединить таблицы лошади, и ослы в одну таблицу.
