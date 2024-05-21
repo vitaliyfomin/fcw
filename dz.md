@@ -361,7 +361,7 @@ class Hamster(DomesticAnimal):
         return "Скрип Скрип!"
 
 
-class DraftAnimal:
+class PackAnimal:
     def __init__(self, name):
         self._name = name
 
@@ -388,26 +388,28 @@ class Donkey(PackAnimal):
 
 
 def main():
+    # Создание экземпляров домашних животных
     dog = Dog("Шарик")
     cat = Cat("Мурка")
     hamster = Hamster("Хома")
 
+    # Создание экземпляров вьючных животных
     horse = Horse("Буцефал")
     camel = Camel("Верблюд")
     donkey = Donkey("Джек")
 
+    # Список всех животных
     animals = [dog, cat, hamster, horse, camel, donkey]
 
+    # Перебор списка животных
     for animal in animals:
         if isinstance(animal, DomesticAnimal):
-            animal_type = "Domestic"
-        else:
-            animal_type = "Draft"
-        print(f"{animal.get_name()} is a {animal_type} animal. Sound: {animal.make_sound()}")
-
-        if isinstance(animal, PackAnimal):
+            animal_type = "Домашнее животное"
+            print(f"{animal.get_name()} это {animal_type}. Звук: {animal.make_sound()}")
+        elif isinstance(animal, PackAnimal):
+            animal_type = "Вьючное животное"
+            print(f"{animal.get_name()} это {animal_type}.")
             print(animal.carry_load())
-
 
 if __name__ == "__main__":
     main()
